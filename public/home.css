@@ -1,0 +1,10 @@
+textarea {
+    border: none;
+    font-size: 30px;
+}
+
+
+#message {
+    font-size: large;
+    font-family: sans-serif;
+}

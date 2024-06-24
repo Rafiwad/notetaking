@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note taking app</title>
+    <style>
+        body {
+            font-family: arial, sans-serif;
+            margin: 20px;
+            background-color: azure;
+        }
+        nav {
+            background-color: honeydew;
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px;
+            margin: 10px;
+            border: 2px sold beige;
+            box-shadow: 5px 10px 15px #eee;
+            border-radius: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav a {
+            text-decoration: none;
+            color: blue;
+        }
+        .note {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+
+        }
+        #create_note {
+            color: rgb(168, 116, 32);
+            
+        }
+        #create_note a {
+            text-decoration: none;
+            color: rgb(168, 116, 32);
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" id="view-note-link">View Notes</a></li>
+            <li><a href="#" id="update-note-link">Update Note</a></li>
+            <li><a href="#" id="delete-note-link">Delete Note</a></li>
+        </ul>
+    </nav>
+    <h1>Note Taking App</h1>
+
+    <button id="create_note"><a href="home.html">Create Note</a></button>
+
+    <h2>Notes</h2>
+    <div id="notes"></div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed');
+            //handle navigation links
+            document.getElementById('view-note-link').addEventListener('click', (e) =>{
+                e.preventDefault();
+                alert('is being implemented by another developer'); 
+                loadNotes();
+            });
+        
+            document.getElementById('update-note-link').addEventListener('click', (e) =>{
+                e.preventDefault();
+                alert('Update note functionality will be implemented by another developer.');
+            });
+
+            document.getElementById('delete-note-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Delete note functionality will be implemented by another developer.');
+            });
+
+            //load notes when the page loads
+            console.log('Loading notes on the page');
+            loadNotes();
+        });
+
+        async function loadNotes() {
+            console.log('Fetching....');
+            //fetch the notes from the server
+            try{
+                const response = await fetch('http://localhost:3000/api/notes');
+                if(!response.ok){
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const notes = await response.JSON();
+            console.log('Notes fetched', notes);
+            const noteContainer = document.getElementById('notes');
+            noteContainer.innerHTML = '';
+            notes.forEach(note => {
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'note';
+                noteDiv.innerHTML = `
+                <h3>${note.name} </h3>
+                <small> Created : ${new Date(note.created_at).toLocaleString()}</small>
+                <small> Last Updated : ${new Date(note.LastUpdated_at).toLocaleString()}</small>
+                `;
+                noteContainer.appendChild(noteDiv);
+            });
+        } catch (error) {
+            console.error('Failed to fetch notes', error);
+        }
+    }
+
+    </script>
+</body>
+</html>
